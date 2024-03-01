@@ -1,0 +1,25 @@
+# fly.toml app configuration file generated for phonebook-backend-mxhew2001-icy-water-331 on 2024-02-29T17:15:34+13:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'phonebook-backend-mxhew2001-icy-water-331'
+primary_region = 'syd'
+
+[build]
+
+[env]
+  PORT = "3000" # add this
+
+[http_service]
+  internal_port = 3000 # ensure that this is same as PORT
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
