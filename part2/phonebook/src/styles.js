@@ -12,7 +12,7 @@ const defaultNotifStyle = {
   }
 
   const notifFailedStyle = {
-    defaultNotifStyle, color: 'red'
+    ...defaultNotifStyle, color: 'red'
   }
 
   export default { defaultNotifStyle, notifSuccessStyle, notifFailedStyle }

@@ -57,6 +57,14 @@ const App = () => {
         setNewName('')
         setNewNumber('')
       })
+      .catch(error => {
+        const errorMsg = error.response.data.error
+        setMessage(errorMsg)
+        setNotifStyle({...styles.notifFailedStyle})
+        setTimeout(() => {
+          setMessage(null)
+        }, 3000)
+      })
   }
 
   const deletePerson = person => {
@@ -102,7 +110,6 @@ const App = () => {
       <Notification message={message} notifStyle={notifStyle} />
       <Filter onChange={handleFilterChange} filter={filter} />
       <h3>add a new</h3>
-      <div>debug: {newName}</div>
       <PersonForm 
         addPerson={addPerson}
         handleNameChange={handleNameChange}
