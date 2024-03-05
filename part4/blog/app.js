@@ -1,11 +1,15 @@
 const cors = require('cors')
 const mongoose = require('mongoose')
+const express = require('express')
+// Does it think i'm using typescript?
+// YOU HAVE TO IMPORT THIS BEFORE IMPORTING THE ROUTERS!
+require('express-async-errors')
 const log = require('./utils/logger')
 const config = require('./utils/config')
 const blogRouter = require('./controllers/blogs')
 const middleware = require('./utils/middleware')
-const express = require('express')
 const morgan = require('morgan')
+
 
 const app = express()
 
