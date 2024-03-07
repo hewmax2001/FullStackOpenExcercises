@@ -1,4 +1,6 @@
 const Blog = require('../models/blog')
+const User = require('../models/user')
+const brcrypt = require('bcrypt')
 
 const initialBlogs = [
     {
@@ -58,13 +60,37 @@ const singleBlog = {
     likes: 7,
 }
 
+const userDetails = {
+    password: 'test_password',
+    username: 'Test_User'
+}
+
 const getAllBlogs = async () => {
     const blogs = await Blog.find({})
     return blogs.map(blog => blog.toJSON())
 }
 
+const getAllUsers = async () => {
+    const users = await User.find({})
+    return users.map(user => user.toJSON())
+}
+
+const createTestUser = async () => {
+
+    const saltRounds = 10
+    const passwordHash = await brcrypt.hash(userDetails.password, saltRounds)
+    const testUser = new User({
+        ...userDetails,
+        passwordHash: passwordHash
+    })
+    return testUser
+}
+
 module.exports = {
     initialBlogs,
     singleBlog,
-    getAllBlogs
+    userDetails,
+    getAllBlogs,
+    getAllUsers,
+    createTestUser,
 }

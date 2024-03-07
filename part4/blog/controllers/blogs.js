@@ -1,10 +1,13 @@
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
-
-// Do not need try-catch blocks thanks to express-async-errors package
+const User = require('../models/user')
+const middleware = require('../utils/middleware')
+require('dotenv')
 
 blogRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({})
+  const blogs = await Blog
+    .find({})
+    .populate('user', { username: 1, name: 1 })
   if (blogs) {
     return response.json(blogs)
   } else {
@@ -12,14 +15,38 @@ blogRouter.get('/', async (request, response) => {
   }
 })
   
-blogRouter.post('/', async (request, response) => {
-  const newBlog = new Blog(request.body)
+blogRouter.post('/',  middleware.userExtractor, async (request, response) => {
+  const body = request.body
+  const requestUser = request.user
+  console.log(requestUser)
+  // If user's id is not found within the token, invalid for this operation or in general
+  if (!requestUser) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  const user = await User.findById(requestUser.id)
+  const newBlog = new Blog(body)
+  newBlog.user = user.id
 
-  const result = await newBlog.save()
-  return response.status(201).json(result)
+  const savedBlog = await newBlog.save()
+
+  user.blogs = user.blogs.concat(savedBlog._id)
+  await user.save()
+
+  return response.status(201).json(savedBlog)
 })
 
-blogRouter.delete('/:id', async (request, response) => {
+blogRouter.delete('/:id',  middleware.userExtractor, async (request, response) => {
+  const user = request.user
+  console.log(user)
+  // If user's id is not found within the token, invalid for this operation or in general
+  if (!user) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  const blog = await Blog.findById(request.params.id)
+
+  if (!( blog.user.toString() === user.id )) {
+    return response.status(401).json({ error: 'blog can only be deleted by the user that created it '})
+  }
   await Blog.findByIdAndDelete(request.params.id)
   return response.status(204).end()
 })
