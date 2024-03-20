@@ -18,7 +18,7 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/',  middleware.userExtractor, async (request, response) => {
   const body = request.body
   const requestUser = request.user
-  console.log(requestUser)
+
   // If user's id is not found within the token, invalid for this operation or in general
   if (!requestUser) {
     return response.status(401).json({ error: 'token invalid' })
@@ -37,7 +37,7 @@ blogRouter.post('/',  middleware.userExtractor, async (request, response) => {
 
 blogRouter.delete('/:id',  middleware.userExtractor, async (request, response) => {
   const user = request.user
-  console.log(user)
+
   // If user's id is not found within the token, invalid for this operation or in general
   if (!user) {
     return response.status(401).json({ error: 'token invalid' })
@@ -58,7 +58,10 @@ blogRouter.put('/:id', async (request, response) => {
     request.params.id,
     { likes },
     { new: true, runValidators: true, context: 'query' }
-  )
+  ).populate('user', { username: 1, name: 1 })
+
+  // const user = await User.findById(updatedBlog.user)
+  // updatedBlog.user = user
 
   return response.json(updatedBlog)
 })

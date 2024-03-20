@@ -20,17 +20,17 @@ const Blog = ({ blog, likeBlog, removable }) => {
   }
 
   return (
-    <div style={boxStyle}>
-      <div style={toggledOff}>
-        {blog.title}
+    <div className={'boxStyle'}>
+      <div style={toggledOff} className='toggledOff'>
+        {blog.title} by {blog.author}
         <button onClick={toggleVisibility}>view</button>
       </div>
-      <div style={toggledOn}>
+      <div style={toggledOn} className='toggledOn'>
         <div>
           {blog.title}
           <button onClick={toggleVisibility}>hide</button>
         </div>
-        {blog.url}
+        <p>{blog.url}</p>
         <div>
               likes {blog.likes} <button onClick={() => likeBlog(blog)}>like</button>
         </div>

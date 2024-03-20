@@ -14,3 +14,11 @@
 .notifFailed {
     color: red;
 }
+
+.boxStyle {
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 1px;
+    padding: 5px;
+    margin-bottom: 5px;
+}

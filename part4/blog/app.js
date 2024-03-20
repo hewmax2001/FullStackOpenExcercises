@@ -4,6 +4,7 @@ const express = require('express')
 // Does it think i'm using typescript?
 // YOU HAVE TO IMPORT THIS BEFORE IMPORTING THE ROUTERS!
 require('express-async-errors')
+require('dotenv').config()
 const log = require('./utils/logger')
 const config = require('./utils/config')
 const blogRouter = require('./controllers/blogs')
@@ -35,6 +36,11 @@ app.use(middleware.tokenExtractor)
 app.use('/api/blogs', blogRouter)
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
+
+if (process.env.NODE_ENV === 'test') {
+    const testingRouter = require('./controllers/testing')
+    app.use('/api/testing', testingRouter)
+}
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
