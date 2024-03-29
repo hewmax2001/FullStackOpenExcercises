@@ -54,6 +54,7 @@ blogRouter.delete('/:id',  middleware.userExtractor, async (request, response) =
 blogRouter.put('/:id', async (request, response) => {
   const { likes } = request.body
 
+
   const updatedBlog = await Blog.findByIdAndUpdate(
     request.params.id,
     { likes },
@@ -63,6 +64,23 @@ blogRouter.put('/:id', async (request, response) => {
   // const user = await User.findById(updatedBlog.user)
   // updatedBlog.user = user
 
+  return response.json(updatedBlog)
+})
+
+// This operation is not idempotent, hence it is a post method despite "updating" the original data
+blogRouter.post('/:id/comment', async (request, response) => {
+  const { comment } = request.body
+
+  
+  const blog = await Blog.findById(request.params.id)
+  const comments = blog.comments.concat(comment)
+  
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    request.params.id,
+    { comments },
+    { new: true, runValidators: true, context: 'query' }
+  ).populate('user', { username: 1, name: 1})
+  
   return response.json(updatedBlog)
 })
 

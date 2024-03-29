@@ -1,0 +1,36 @@
+.defaultNotif {
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.notifSuccess {
+  color: green;
+}
+
+.notifFailed {
+  color: red;
+}
+
+.boxStyle {
+  border-style: solid;
+  border-width: 1px;
+  padding: 5px;
+  padding-bottom: 0px;
+  margin-bottom: 5px;
+}
+
+.menu {
+  padding: 5px;
+  background-color: gainsboro;
+  margin-bottom: 5px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.menu div {
+  display: inline-block;
+}
