@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { deleteBlog, likeBlog, commentBlog } from "../reducers/blogReducer";
 import { useMatch } from "react-router-dom";
+import { TextField, Button } from "@mui/material";
 
 const Blog = (props) => {
   const dispatch = useDispatch()
@@ -39,15 +40,20 @@ const Blog = (props) => {
       <h2>{blog.title}</h2>
       <a href={blog.url}>{blog.url}</a>
       <div>
-        {blog.likes} likes 
-        <button onClick={() => dispatch(likeBlog(blog))}>like</button>
+        <p>{blog.likes} likes</p>
+        <Button size="small" variant="contained" color="primary" onClick={() => dispatch(likeBlog(blog))}>like</Button>
       </div>
-      added by {blog.author}
-      {removable() && <button onClick={removeBlog}>remove</button>}
+      <p>added by {blog.author}</p>
+      {removable() && <Button size="small" variant="contained" color="primary" onClick={removeBlog}>remove</Button>}
       <h3>Comments</h3>
       <form onSubmit={comment}>
-        <input name="comment" type="text" />
-        <button type="submit">add comment</button>
+        <p>Comment:</p>
+        <div>
+          <TextField label="Comment" name="comment" type="text" />
+        </div>
+        <div>
+          <Button size="small" variant="contained" color="primary" type="submit">add comment</Button>
+        </div>
       </form>
       <ul>
         {blog.comments.map((com) => (

@@ -17,7 +17,7 @@ const BlogList = () => {
     const handleBlogCreate = async (blog) => {
         blogFormRef.current.toggleVisibility();
         dispatch(createBlog(blog, { username: userDetails.username}))
-        dispatch(displayNotification(`a new blog ${blog.title} by ${blog.author} added`, 'notifSuccess', 5))
+        dispatch(displayNotification(`a new blog ${blog.title} by ${blog.author} added`, 'success', 5))
     };
 
     return (

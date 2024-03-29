@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { TextField, Button } from "@mui/material";
 
 const CreateBlog = ({ handleBlogCreate }) => {
   const dispatch = useDispatch() 
@@ -21,10 +22,10 @@ const CreateBlog = ({ handleBlogCreate }) => {
       <h2>Create new</h2>
       <form onSubmit={createBlogSubmit}>
         <div>
-          title
-          <input
+          <TextField
             type="text"
             value={title}
+            label="Title"
             name="Title"
             onChange={({ target }) => setTitle(target.value)}
             id="title-input"
@@ -32,10 +33,10 @@ const CreateBlog = ({ handleBlogCreate }) => {
           />
         </div>
         <div>
-          author
-          <input
+          <TextField
             type="text"
             value={author}
+            label="Author"
             name="Author"
             onChange={({ target }) => setAuthor(target.value)}
             id="author-input"
@@ -43,17 +44,17 @@ const CreateBlog = ({ handleBlogCreate }) => {
           />
         </div>
         <div>
-          url
-          <input
+          <TextField
             type="text"
             value={url}
+            label="URL"
             name="Url"
             onChange={({ target }) => setUrl(target.value)}
             id="url-input"
             data-testid="url-input"
           />
         </div>
-        <button type="submit">create</button>
+        <Button size="small" variant="contained" color="primary" type="submit">create</Button>
       </form>
     </>
   );

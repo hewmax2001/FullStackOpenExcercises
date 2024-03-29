@@ -1,47 +1,19 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import blogService from "./services/blogs";
 import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import "../styles.css";
-import Togglable from "./components/Togglable";
 import { useDispatch, useSelector } from "react-redux";
-import { initializeBlogs, createBlog } from "./reducers/blogReducer";
-
-import { logoutUser, setUser } from "./reducers/userReducer";
-import {
-  Routes, Route, Link, useMatch, useNavigate
-} from 'react-router-dom'
+import { initializeBlogs } from "./reducers/blogReducer";
+import { setUser } from "./reducers/userReducer";
+import { Routes, Route } from 'react-router-dom'
 import BlogList from "./components/BlogList";
 import { initializeUsers } from "./reducers/allUsersReducer";
 import UserList from "./components/UserList";
 import User from "./components/User";
 import Blog from "./components/Blog";
-
-const Menu = (props) => {
-  const userDetails = useSelector(state => state.user)
-  const links = [
-    { link: '/users', name: 'users'},
-    { link: '/', name: 'blogs'}
-  ]
-
-  const linkStyle = {
-    paddingRight: 4
-  }
-
-  return (
-    <div className="menu">
-      {links.map((l) => (
-        <Link key={l.name} style={linkStyle} to={l.link}>{l.name}</Link>
-      ))}
-      { userDetails && (
-        <div>
-          {`${userDetails.name} logged in`}
-          <button onClick={() => dispatch(logoutUser())}>logout</button>
-        </div>
-        )}
-    </div>
-  )
-}
+import Menu from "./components/Menu"
+import { Container } from '@mui/material'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -66,15 +38,9 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <Container>
       <Menu />
       <Notification />
-      {userDetails ? null :
-      (
-        <Togglable buttonLabel={"Login"}>
-          <LoginForm />
-        </Togglable>
-      )}
 
       <h1>blog app</h1>
 
@@ -83,9 +49,10 @@ const App = () => {
         <Route path="/users/:id" element={<User />} />
         <Route path="/" element={<BlogList />} />
         <Route path="/blogs/:id" element={<Blog />} />
+        <Route path="/login" element={<LoginForm />} />
       </Routes>
 
-    </div>
+    </Container>
   );
 };
 

@@ -2,9 +2,12 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../reducers/userReducer";
 import { displayNotification } from "../reducers/notificationReducer";
+import { TextField, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = (props) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // Replace useState instances with event.target.field_name.value?
   const [username, setUsername] = useState("");
@@ -17,28 +20,26 @@ const LoginForm = (props) => {
       await dispatch(loginUser(username, password))
       setUsername("");
       setPassword("");
+      navigate("/")
     } catch {
-      dispatch(displayNotification('Wrong credentials', 'notifFailed', 5))
+      dispatch(displayNotification('Wrong credentials', 'error', 5))
     }
   };
 
   return (
-    <>
       <form onSubmit={handleLogin}>
         <div>
-          username
-          <input
-            type="text"
+          <TextField
+            label="username"
             data-testid="username"
             value={username}
             name="Username"
             onChange={({ target }) => setUsername(target.value)}
           />
         </div>
-
         <div>
-          password
-          <input
+          <TextField
+            label="password"
             type="password"
             data-testid="password"
             value={password}
@@ -46,9 +47,10 @@ const LoginForm = (props) => {
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type="submit">login</button>
+        <div>
+          <Button variant="contained" color="primary" type="submit">login</Button>
+        </div>
       </form>
-    </>
   );
 };
 
